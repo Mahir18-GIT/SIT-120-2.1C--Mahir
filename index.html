@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Recipe Book</title>
+    <!-- Include Vue.js from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.30"></script>
+    <style>
+       body {
+            font-family: 'Georgia', serif;
+            background-color: #ffe5b4; /* Peach background for a warm feel */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #app {
+            background-color: #fff5e1; /* Light beige background */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #a0522d; /* Sienna color for headings */
+            border-bottom: 2px solid #a0522d;
+            display: inline-block;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        p {
+            color: #8b4513; /* Saddle brown color for better contrast */
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        ul {
+            list-style: inside square;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 20px;
+            color: #8b4513;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 2px solid #a0522d;
+            border-radius: 10px;
+            font-size: 18px;
+            outline: none;
+        }
+
+        button {
+            background-color: #ff6347; /* Tomato color */
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #ff4500; /* Darker tomato on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>My Recipe Book</h1>
+
+        <!-- Featured Recipe -->
+        <div>
+            <h2>Featured Recipe</h2>
+            <p v-if="showRecipe">{{ featuredRecipe }}</p>
+            <p v-else>No featured recipe for today.</p>
+        </div>
+
+        <!-- Recipe List -->
+        <div>
+            <h2>All Recipes</h2>
+            <ul>
+                <li v-for="recipe in recipes" :key="recipe.id">{{ recipe.name }}</li>
+            </ul>
+        </div>
+
+        <!-- Add a New Recipe -->
+        <div>
+            <h2>Add a New Recipe</h2>
+            <input type="text" v-model="newRecipe" placeholder="Enter recipe name...">
+            <p>You added: {{ newRecipe }}</p>
+            <button @click="addRecipe">Add</button>
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    showRecipe: true,
+                    featuredRecipe: 'Tomato Soup',
+                    recipes: [
+                        { id: 1, name: 'Spaghetti' },
+                        { id: 2, name: 'Pizza' },
+                        { id: 3, name: 'Tiramisu' },
+                    ],
+                    newRecipe: ''
+                };
+            },
+            methods: {
+                addRecipe() {
+                    if (this.newRecipe.trim() !== '') {
+                        this.recipes.push({ id: Date.now(), name: this.newRecipe.trim() });
+                        this.newRecipe = '';
+                    }
+                }
+            },
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+
+</html>
